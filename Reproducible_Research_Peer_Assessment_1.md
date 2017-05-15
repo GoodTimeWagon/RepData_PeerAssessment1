@@ -93,7 +93,7 @@ For these values I will substitute in the mean number of steps taken for that ti
 newdata<-merge(data,intervalsteps,by="interval")
 newdata$steps.x[is.na(newdata$steps.x)]<-newdata$steps.y[is.na(newdata$steps.x)]
 ```
-##7) Histogram of the total number of steps taken each day after missing values are imputed
+##7) Histogram of the total number of steps taken each day after missing values are imputed:
 
 ```r
 newdailysteps<-aggregate(newdata$steps.x~newdata$date,newdata,sum)
