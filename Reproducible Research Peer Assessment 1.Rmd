@@ -10,47 +10,47 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##1) Code for reading in the dataset and/or processing the data
+## 1) Code for reading in the dataset and/or processing the data
 
 ```{r load data}
 dataFile<-"activity.csv"
 data<-read.table(dataFile, header=TRUE, sep=",", stringsAsFactors=FALSE, dec=".")
 ```
 
-##2) Histogram of the total number of steps taken each day
+## 2) Histogram of the total number of steps taken each day
 
-```{r aggregate daily steps}
+```{r aggregate_daily_steps}
 dailysteps<-aggregate(steps~date,data,sum)
 ```
 
-```{r histogram daily steps}
+```{r histogram_daily_steps}
 library(ggplot2)
 ggplot(dailysteps,aes(steps))+geom_histogram(binwidth=500)+scale_x_continuous(minor_breaks = seq(1,25000,500),breaks = seq(0,25000,1000))+theme(axis.text.x=element_text(angle = 90, vjust = 0.5))
 ```
 
-##3) Mean and median number of steps taken each day
+## 3) Mean and median number of steps taken each day
 
 ```{r mean and median steps per day}
 mean(dailysteps$steps)
 median(dailysteps$steps)
 ```
 
-##4) Time series plot of the average number of steps taken
+## 4) Time series plot of the average number of steps taken
 
 ``` {r time series aggregate}
 intervalsteps<-aggregate(steps~interval,data,mean)
 ```
 
-``` {r time series plot}
+``` {r time_series}
 with(intervalsteps,plot(interval,steps,type="l"))
 ```
 
-##5) The 5-minute interval that, on average, contains the maximum number of steps
+## 5) The 5-minute interval that, on average, contains the maximum number of steps
 ``` {r max five minute interval}
 subset(intervalsteps,steps==max(steps))$interval
 ```
 
-##6) Code to describe and show a strategy for imputing missing data
+## 6) Code to describe and show a strategy for imputing missing data
 
     + Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
     + Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
@@ -69,19 +69,19 @@ For these values I will substitute in the mean number of steps taken for that ti
 newdata<-merge(data,intervalsteps,by="interval")
 newdata$steps.x[is.na(newdata$steps.x)]<-newdata$steps.y[is.na(newdata$steps.x)]
 ```
-##7) Histogram of the total number of steps taken each day after missing values are imputed:
+## 7) Histogram of the total number of steps taken each day after missing values are imputed:
 ```{r histogram of better data}
 newdailysteps<-aggregate(newdata$steps.x~newdata$date,newdata,sum)
 ```
 
-```{r better histogram}
+```{r better_histogram}
 ggplot(newdailysteps,aes(newdailysteps$`newdata$steps.x`))+geom_histogram(binwidth=500)+scale_x_continuous(minor_breaks = seq(1,25000,500),breaks = seq(0,25000,1000))+theme(axis.text.x=element_text(angle = 90, vjust = 0.5))+xlab("steps")
 ```
 
 
-##8) Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
+## 8) Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 
-``` {r 5 minute interval average across weekdays and weekends}
+``` {r weekend}
 newdata$daytype<-ifelse(weekdays(as.Date(newdata$date))%in%c("Saturday","Sunday"),"Weekend","Weekday")
 wknewdata<-newdata[newdata$daytype=="Weekday",]
 wdnewdata<-newdata[newdata$daytype=="Weekend",]
