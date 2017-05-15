@@ -78,6 +78,10 @@ newdailysteps<-aggregate(newdata$steps.x~newdata$date,newdata,sum)
 ggplot(newdailysteps,aes(newdailysteps$`newdata$steps.x`))+geom_histogram(binwidth=500)+scale_x_continuous(minor_breaks = seq(1,25000,500),breaks = seq(0,25000,1000))+theme(axis.text.x=element_text(angle = 90, vjust = 0.5))+xlab("steps")
 ```
 
+```{r mean and median steps per day2}
+mean(newdailysteps$`newdata$steps.x`)
+median(newdailysteps$`newdata$steps.x`)
+```
 
 ## 8) Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 

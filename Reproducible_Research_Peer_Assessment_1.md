@@ -107,6 +107,22 @@ ggplot(newdailysteps,aes(newdailysteps$`newdata$steps.x`))+geom_histogram(binwid
 ![](Reproducible_Research_Peer_Assessment_1_files/figure-html/better_histogram-1.png)<!-- -->
 
 
+```r
+mean(newdailysteps$`newdata$steps.x`)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
+median(newdailysteps$`newdata$steps.x`)
+```
+
+```
+## [1] 10766.19
+```
+
 ## 8) Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 
 
